@@ -1,0 +1,380 @@
+/*
+  Course stylesheet (TOC width, code blocks, etc.).
+  Linked from README via `link:` and injected in local dev as /main.css.
+
+  Typography: LiaScript sets html { font-size: 62.5% } and body text to
+  calc(var(--global-font-size, 1.5rem) * var(--font-size-multiplier)).
+  Default is 1.5rem × 1 — small on the 62.5% root (~15px). Override below.
+
+  Tweak --liascript-preview-toc-w to taste (e.g. 320px–400px).
+
+  Monospace: prefers system stack below; optional JetBrains if installed locally.
+  Avoid @import from Google Fonts here — SCORM/LMS often block it and some
+  browsers treat a failed first @import as blocking for the rest of this file.
+*/
+
+:root {
+  --liascript-preview-toc-w: 350px;
+  /* Body / paragraph size; headings also scale with --font-size-multiplier (UI font scale). */
+  --global-font-size: 1.6rem;
+  /* Snowflake brand blue (lists, accents) */
+  --snowflake-blue: #249edc;
+  /* LiaScript uses comma-separated RGB in rgb(var(--color-highlight)); default is turquoise. */
+  --snowflake-blue-rgb: 36, 158, 220;
+  --snowflake-blue-dark-rgb: 18, 112, 168;
+  --color-highlight: var(--snowflake-blue-rgb);
+  --color-highlight-dark: var(--snowflake-blue-dark-rgb);
+  --color-highlight-menu: var(--snowflake-blue-rgb);
+  --liascript-mono: "JetBrains Mono", ui-monospace, "Cascadia Code", "Source Code Pro",
+    monospace;
+  /* Horizontal rules (`---` in Markdown → <hr>) */
+  --liascript-hr-color: #a6a6a6;
+}
+
+/* Typography */
+.lia-divider {
+  border: 0;
+  height: 2px;
+  background-color: var(--liascript-hr-color);
+  margin: 1.5rem 0;
+}
+
+.lia-paragraph {
+  margin: 30px 0px;
+}
+
+/* Headings + app header — LiaSourceSansPro (bundled with @liascript/editor) */
+.lia-header {
+  font-family: "LiaSourceSansPro", "Source Sans 3", system-ui, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "LiaSourceSansPro", "Source Sans 3", system-ui, sans-serif !important;
+}
+
+/* LISTS — square bullets, Snowflake blue */
+
+.lia-list--unordered {
+  margin-left: 15px;
+  list-style-type: square;
+  padding-inline-start: 1.1rem;
+}
+
+.lia-list--unordered li::marker {
+  color: var(--snowflake-blue);
+}
+
+/* Tables — header row */
+.lia-table__head th,
+.lia-table thead th {
+  background-color: #2bb5e9 !important;
+  color: white !important;
+}
+
+/* IMAGES */
+.text-center {
+  text-align: center;
+}
+
+/* IMAGES */
+.img-center {
+  display: block;
+  margin-inline: auto;
+  margin-top: 4rem;
+  margin-bottom: 4rem;
+  max-width: 100%;
+  height: auto;
+}
+
+.lia-banner {
+  box-sizing: border-box;
+}
+
+.lia-banner--warn {
+  position: relative;
+  width: 100%;
+  margin: 1.25rem 0;
+  padding: 1.75rem 1.75rem 1.75rem 4.25rem;
+  background: #e03d2e;
+  border-radius: 8px;
+  color: #fff;
+}
+
+.lia-banner--warn .lia-banner__icon {
+  position: absolute;
+  left: 1.15rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  line-height: 0;
+}
+
+.lia-banner--warn .lia-banner__icon svg {
+  display: block;
+  width: 2.25rem;
+  height: 2.25rem;
+}
+
+.lia-banner__msg {
+  margin: 0;
+  width: 100%;
+  text-align: center;
+  font-weight: 700;
+  /* Same effective size as LiaScript body / paragraphs */
+  font-size: calc(var(--global-font-size, 1.5rem) * var(--font-size-multiplier, 1));
+  line-height: 1.4;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* Speech bubbles (Klaus / Camilla style). Avatars: ./imgs/klaus_avatar.png, camilla_avatar.png */
+
+.lia-bubble {
+  line-height: 1.35;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+
+}
+
+.lia-bubble__avatar {
+  width: 5.5rem;
+  height: 5.5rem;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  align-self: flex-start;
+}
+
+.lia-bubble__name {
+  display: block;
+  font-size: 0.78em;
+  font-weight: 600;
+  /* Avoid margin on all sides — it stacked with body padding and doubled vertical space */
+  margin: 0 0 0.28rem;
+}
+
+.lia-bubble__msg {
+  margin: 0;
+  margin-block: 0;
+  padding: 0;
+  font-size: 1.12em;
+  font-weight: 700;
+  color: #141414;
+  text-align: right;
+  line-height: 1.35; 
+  color: white;
+}
+
+.lia-bubble--left .lia-bubble__msg {
+  text-align: left;
+}
+
+/* Right: orange, tail top-right (Klaus) — row is [bubble][avatar] */
+.lia-bubble--right {
+  flex-direction: row;
+  justify-content: flex-end;
+  margin: 1rem 0;
+}
+
+.lia-bubble--right .lia-bubble__body {
+  position: relative;
+  width: fit-content;
+  max-width: 75vw;
+  /* was 0.65rem v / 1rem h — single value on all sides */
+  padding: 3rem;
+  background: #ff8324;
+  border-radius: 1rem;
+  box-sizing: border-box;
+  overflow: visible;
+}
+
+.lia-bubble--right .lia-bubble__name {
+  color: #4a4a4a;
+  text-align: right;
+}
+
+/* Tail: top-right — nudge left (toward bubble) vs full extension */
+.lia-bubble--right .lia-bubble__body::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: -7px;
+  width: 24px;
+  height: 24px;
+  background: #ff8324;
+  clip-path: polygon(0 0, 0 100%, 100% 0);
+}
+
+/* Left: purple, tail top-left (Camilla) — row is [avatar][bubble] */
+.lia-bubble--left {
+  flex-direction: row;
+  justify-content: flex-start;
+  margin: 1.25rem 0;
+}
+
+.lia-bubble--left .lia-bubble__body {
+  position: relative;
+  width: fit-content;
+  max-width: 75vw;
+  padding: 3rem;
+  background: #9a3dff;
+  border-radius: 1rem;
+  box-sizing: border-box;
+  overflow: visible;
+}
+
+.lia-bubble--right .lia-bubble__body,
+.lia-bubble--left .lia-bubble__body {
+  box-shadow:
+    0 2px 3px rgba(0, 0, 0, 0.5),
+    0 2px 3px rgba(0, 0, 0, 05);
+}
+
+.lia-bubble--left .lia-bubble__name {
+  color: #f4e9ff;
+  text-align: left;
+}
+
+/* Tail: top-left — nudge right (toward bubble) vs full extension */
+.lia-bubble--left .lia-bubble__body::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -7px;
+  width: 14px;
+  height: 13px;
+  background: #9a3dff;
+  clip-path: polygon(100% 0, 100% 100%, 0 0);
+}
+
+/* Monospace — JetBrains Mono (replaces LiaSourceCodePro in code UI) */
+.lia-code,
+.lia-code .ace_editor,
+.lia-code--inline {
+  font-family: var(--liascript-mono) !important;
+}
+
+/* Fenced code blocks — LiaScript uses Ace inside .lia-code__input */
+.lia-code__input {
+  border-radius: 8px;
+  overflow: hidden; /* keeps Ace corners matching the box */
+  padding-block: 0.75rem;
+}
+.lia-code .ace_editor {
+  border-radius: 8px;
+}
+/*
+  Ace caps height with max-height: calc(var(--max-editor-line-count) * …). Padding on
+  .ace_scroller is inside that box, so 1.5rem top+bottom stole ~2 lines and clipped text.
+  Use horizontal padding on the scroller only; vertical gap comes from __input padding-block.
+*/
+.lia-code--block .ace_scroller {
+  padding-inline: 1.5rem !important;
+  padding-block: 0 !important;
+}
+
+/* Upstream max-height can still truncate long fences; let blocks grow with their source. */
+.lia-code--block .ace_editor {
+  max-height: none !important;
+}
+
+@media screen and (min-width: 48em) {
+  .lia-toc {
+    width: var(--liascript-preview-toc-w) !important;
+  }
+
+  .lia-canvas.lia-toc--visible {
+    left: var(--liascript-preview-toc-w) !important;
+    width: calc(100% - var(--liascript-preview-toc-w)) !important;
+  }
+
+  .lia-canvas.lia-toc--visible .lia-header {
+    left: var(--liascript-preview-toc-w) !important;
+  }
+
+  [dir="rtl"] .lia-canvas.lia-toc--visible {
+    left: auto !important;
+    right: var(--liascript-preview-toc-w) !important;
+  }
+
+  [dir="rtl"] .lia-canvas.lia-toc--visible .lia-header {
+    left: 0 !important;
+    right: var(--liascript-preview-toc-w) !important;
+  }
+
+  /* TOC + support rail (upstream uses calc(100% - 50.1rem) ≈ 28.5rem + 21.6rem) */
+  .lia-canvas.lia-toc--visible.lia-support--visible {
+    width: calc(100% - var(--liascript-preview-toc-w) - 21.6rem) !important;
+  }
+
+  [dir="rtl"] .lia-canvas.lia-toc--visible.lia-support--visible .lia-header {
+    left: 21.6rem !important;
+    right: var(--liascript-preview-toc-w) !important;
+  }
+}
+
+/* Slides mode header offsets (upstream pairs 31.5rem with 28.5rem) */
+@media screen and (min-width: 90em) {
+  .lia-canvas.lia-mode--slides .lia-header {
+    left: calc(3rem + var(--liascript-preview-toc-w)) !important;
+    right: var(--liascript-preview-toc-w) !important;
+  }
+}
+
+header {
+  margin-bottom: 4rem;
+  text-align: center;
+}
+
+/* Slide footer: editor uses align-items:center from 64em, then row + flex-start at 90em (~1440px). */
+.lia-slide__footer {
+  margin-top: 2rem;
+  align-items: center !important;
+}
+
+@media screen and (min-width: 90em) {
+  .lia-slide__footer {
+    justify-content: center !important;
+  }
+}
+
+/* TTS bar: editor uses .lia-responsive-voice { width: 100% } so the gray strip spans the footer. */
+.lia-responsive-voice {
+  width: auto !important;
+  max-width: min(32rem, 92vw);
+  flex: 0 1 auto !important;
+  margin-inline: auto;
+  padding: 0.75rem 1rem !important;
+}
+
+.lia-responsive-voice__control {
+  justify-content: right !important;
+  gap: 0.75rem;
+}
+
+.ace_scroller {
+  overflow: visible !important;
+  font-size: 14px;
+}
+
+.lia-slide__container {
+  margin-bottom: 3rem;
+}
+
+.lia-slide__footer {
+  border-top: 1px solid #a6a6a6;
+  padding-top: 3rem;
+}
+
+.lia-progress {
+  height: 0.2rem !important;
+}
